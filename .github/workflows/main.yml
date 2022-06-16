@@ -23,11 +23,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Setup Node.js environment
-      - uses: actions/setup-node@v3.3.0
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      # Runs test in package
+      - uses: actions/setup-node@v3.3.0
+        with:
+          node-version: '16'
+      - name: Install deps
+      - run: npm install      # Runs test in package
       - name: Run test
         run: npm test
 
