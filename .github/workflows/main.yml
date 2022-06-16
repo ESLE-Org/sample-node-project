@@ -30,5 +30,6 @@ jobs:
         run: npm install # Runs test in package
       - name: Run test
         run: npm test
-      - name: set-commit-status
+      - name : set-commit-status
+        if: always()
         uses: myrotvorets/set-commit-status-action@1.1.4
