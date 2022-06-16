@@ -20,7 +20,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: ESLE-Org/example-javascript-action@v0.3
+      - uses: ESLE-Org/example-javascript-action@v0.4
         with:
           githubToken: ${{secrets.GITHUB_TOKEN}}
       # Use the output from the `hello` step
