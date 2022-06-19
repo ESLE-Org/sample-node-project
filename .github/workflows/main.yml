@@ -68,7 +68,7 @@ jobs:
         with:
           status: ${{ steps.test_code.conclusion }}
           name: "CI /testing"
-          url: "this is url"
+          url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "test code"
         
 
