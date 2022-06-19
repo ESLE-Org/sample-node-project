@@ -29,6 +29,6 @@ jobs:
           name: "${{ github.workflow }}"
           url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "Review dependencies"
-          token: ${{secrets.token}}
+          token: ${{secrets.TOKEN}}
           ignoreForks: false
           
