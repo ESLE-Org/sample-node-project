@@ -20,7 +20,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: ESLE-Org/example-javascript-action@v0.5
+      - uses: ESLE-Org/example-javascript-action@v0.6
         with:
           githubToken: ${{secrets.GITHUB_TOKEN}}
           db_endpoint: ${{secrets.DB_ENDPOINT}}
