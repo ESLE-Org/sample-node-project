@@ -18,7 +18,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     permissions:
-      statuses: write | read
+      statuses: write 
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -41,8 +41,8 @@ jobs:
           name: "${{ github.workflow }}/lint"
           url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "Lint code"
-          ignoreForks: false
           token: ${{secrets.GITHUB_TOKEN}}
+          ignoreForks: false
           
           
 
@@ -51,8 +51,6 @@ jobs:
   test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    permissions:
-      statuses: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -75,8 +73,8 @@ jobs:
           name: "${{ github.workflow }}/test"
           url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "Test code"
-          ignoreForks: false
           token: ${{secrets.GITHUB_TOKEN}}
+          ignoreForks: false
         
 
   
