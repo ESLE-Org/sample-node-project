@@ -32,3 +32,18 @@ jobs:
           token: "${{secrets.TOKEN}}"
           ignoreForks: false
           
+      - name: Create Status
+        if: always()
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "state":  ${{ steps.dependency_review.conclusion }},
+            "context": "${{ github.workflow }}",
+            "target_url": 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+            }' \
+          --fail
+        
+          
