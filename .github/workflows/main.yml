@@ -17,6 +17,8 @@ jobs:
   linting:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    permissions:
+      statuses: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -31,15 +33,16 @@ jobs:
       - name: Code liniting
         id: lint_code
         run: npm run lint
-      - name: Create status
+      - name: Write status
         if: always()
-        uses: hkusu/status-create-action@v1.0.0
+        uses: ouzi-dev/commit-status-updater@v1.1.0
         with:
-          sha: ${{ github.sha }}
-          state: ${{ steps.lint_code.conclusion }}
-          context: "${{ github.workflow }}/lint"
+          status: ${{ steps.lint_code.conclusion }}
+          name: "${{ github.workflow }}/lint"
+          url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "Lint code"
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          ignoreForks: false
+          token: ${{secrets.GITHUB_TOKEN}}
           
           
 
@@ -48,6 +51,8 @@ jobs:
   test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    permissions:
+      statuses: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -67,9 +72,11 @@ jobs:
         uses: ouzi-dev/commit-status-updater@v1.1.0
         with:
           status: ${{ steps.test_code.conclusion }}
-          name: "CI /testing"
-          url: "this is url"
-          description: "test code"
+          name: "${{ github.workflow }}/test"
+          url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          description: "Test code"
+          ignoreForks: false
+          token: ${{secrets.GITHUB_TOKEN}}
         
 
   
