@@ -31,4 +31,3 @@ jobs:
           description: "Review dependencies"
           token: ${{secrets.GITHUB_TOKEN}}
           ignoreForks: false
-          
