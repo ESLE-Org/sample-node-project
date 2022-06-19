@@ -13,18 +13,7 @@ jobs:
   dependency-review:
     runs-on: ubuntu-latest
     permissions:
-      actions: read
-      checks: read
       contents: read
-      deployments: read
-      id-token: read
-      issues: read
-      discussions: read
-      packages: read
-      pages: read
-      pull-requests: read
-      repository-projects: read
-      security-events: read
       statuses: write
     steps:
       - name: 'Checkout Repository'
@@ -39,7 +28,6 @@ jobs:
           status: ${{ steps.dependency_review.conclusion }}
           name: "${{ github.workflow }}"
           url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-          description: "Dependency review on code"
+          description: "Review dependencies"
           token: ${{secrets.GITHUB_TOKEN}}
           ignoreForks: false
-
