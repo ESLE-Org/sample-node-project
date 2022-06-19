@@ -21,11 +21,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: ESLE-Org/example-javascript-action@v0.6
+      - uses: ESLE-Org/security-status-monitoring-action@v1.0.0
         with:
           githubToken: ${{secrets.GITHUB_TOKEN}}
           db_endpoint: ${{secrets.DB_ENDPOINT}}
           db_key: ${{secrets.DB_KEY}}
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+
