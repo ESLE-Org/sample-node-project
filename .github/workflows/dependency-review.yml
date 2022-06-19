@@ -25,7 +25,7 @@ jobs:
         if: always()
         uses: ouzi-dev/commit-status-updater@v1.1.0
         with:
-          status: ${{ steps.dependency-review.conclusion }}
+          status: ${{ steps.dependency_review.conclusion }}
           name: "${{ github.workflow }}"
           url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "Dependency review on code"
