@@ -66,8 +66,9 @@ jobs:
         if: always()
         uses: ouzi-dev/commit-status-updater@v1.1.0
         with:
-          state: ${{ steps.test_code.conclusion }}
-          context: "${{ github.workflow }}/ test"
+          status: ${{ steps.test_code.conclusion }}
+          name: "CI /testing"
+          url: "this is url"
           description: "test code"
         
 
