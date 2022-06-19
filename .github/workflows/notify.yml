@@ -6,9 +6,10 @@ name: Security Status Monitoring
 on:
   # Trigger on workflow run
 
-  workflow_run:
-    workflows: [ci, "Dependency Review"]
-    types: [completed]
+
+  workflow_run : 
+    workflows : ["Set test status", "Dependency Review"]
+    types : [ completed]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 

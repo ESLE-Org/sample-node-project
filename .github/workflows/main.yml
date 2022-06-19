@@ -28,8 +28,6 @@ jobs:
           node-version: "16"
       - name: Install deps
         run: npm install # Runs test in package
-      - name: Run test
+      - name: Run tests
         run: npm test
-      - name : set-commit-status
-        if: always()
-        uses: myrotvorets/set-commit-status-action@1.1.4
+  
