@@ -54,5 +54,6 @@ jobs:
           status: ${{ steps.dependency_review.conclusion }}
           context: Publish NPM package
           allowForks: true
+          sha: ${{github.pull_request.head.sha}}
         
           
