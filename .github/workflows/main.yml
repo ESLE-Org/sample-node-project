@@ -60,7 +60,15 @@ jobs:
       - name: Install deps
         run: npm ci # Runs test in package
       - name: Run tests
+        id: test_code
         run: npm test
+      - name: Write status
+        if: always()
+        uses: ouzi-dev/commit-status-updater@v1.1.0
+        with:
+          state: ${{ steps.test_code.conclusion }}
+          context: "${{ github.workflow }}/ test"
+          description: "test code"
         
 
   
