@@ -37,7 +37,7 @@ jobs:
         run: |
           curl --request POST \
           --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'authorization: Bearer ${{ github.TOKEN }}' \
           --header 'content-type: application/json' \
           --data '{
             "state":  ${{ steps.dependency_review.conclusion }},
@@ -45,5 +45,13 @@ jobs:
             "target_url": 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
             }' \
           --fail
+          
+      - name: Set final commit status
+        uses: myrotvorets/set-commit-status-action@master
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ steps.dependency_review.conclusion }}
+          context: Publish NPM package
         
           
