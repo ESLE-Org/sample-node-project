@@ -8,7 +8,7 @@ on:
 
 
   workflow_run : 
-    workflows : ["Set test status", "Dependency Review"]
+    workflows : ["CI", "Dependency Review"]
     types : [ completed]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,6 +24,6 @@ jobs:
       - uses: ESLE-Org/security-status-monitoring-action@v1.0.0
         with:
           githubToken: ${{secrets.GITHUB_TOKEN}}
-          db_endpoint: ${{secrets.DB_ENDPOINT}}
-          db_key: ${{secrets.DB_KEY}}
+          db_endpoint: ${{secrets.COSMOS_DB_BASE_URL}}
+          db_key: ${{secrets.COSMOS_DB_PRIMARY_KEY}}
 
