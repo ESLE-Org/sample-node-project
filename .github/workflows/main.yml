@@ -73,7 +73,7 @@ jobs:
           name: "${{ github.workflow }}/test"
           url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "Test code"
-          token: ${{secrets.GITHUB_TOKEN}}
+          token: "${{secrets.TOKEN}}"
           ignoreForks: false
         
 
