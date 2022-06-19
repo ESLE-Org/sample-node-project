@@ -5,7 +5,7 @@
 # Source repository: https://github.com/actions/dependency-review-action
 # Public documentation: https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-dependency-review#dependency-review-enforcement
 name: 'Dependency Review'
-on: [pull_request]
+on: [pull_request, pull_request_target]
 
 
 
@@ -53,5 +53,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ steps.dependency_review.conclusion }}
           context: Publish NPM package
+          allowForks: true
         
           
