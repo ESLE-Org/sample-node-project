@@ -13,7 +13,38 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+# Lint code
+  linting:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Setup Node env
+        uses: actions/setup-node@v3.3.0
+        with:
+          node-version: "16"
+      - name: Install deps
+        run: npm ci 
+      - name: Code liniting
+        id: lint_code
+        run: npm run lint
+      - name: Create status
+        if: always()
+        uses: hkusu/status-create-action@v1.0.0
+        with:
+          sha: ${{ github.sha }}
+          state: ${{ steps.lint_code.conclusion }}
+          context: "${{ github.workflow }}/lint"
+          description: "Lint code"
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          
+          
+
+  
+  # Test code
   test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -27,9 +58,18 @@ jobs:
         with:
           node-version: "16"
       - name: Install deps
-        run: npm install # Runs test in package
-      - name: Run test
+        run: npm ci # Runs test in package
+      - name: Run tests
+        id: test_code
         run: npm test
-      - name : set-commit-status
+      - name: Write status
         if: always()
-        uses: myrotvorets/set-commit-status-action@1.1.4
+        uses: ouzi-dev/commit-status-updater@v1.1.0
+        with:
+          status: ${{ steps.test_code.conclusion }}
+          name: "CI /testing"
+          url: "this is url"
+          description: "test code"
+        
+
+  
