@@ -29,7 +29,19 @@ jobs:
       - name: Install deps
         run: npm ci 
       - name: Code liniting
-        run: npm lint
+        id: lint_code
+        run: npm run lint
+      - name: Create status
+        if: always()
+        uses: hkusu/status-create-action@v1.0.0
+        with:
+          sha: ${{ github.event.workflow_run.head_commit.id }}
+          state: ${{ steps.lint_code.conclusion }}
+          target-url: ${{ github.event.workflow_run.html_url }}
+          context: "${{ github.workflow }}/lint"
+          description: "Lint code"
+          
+
   
   # Test code
   test:
@@ -48,4 +60,6 @@ jobs:
         run: npm ci # Runs test in package
       - name: Run tests
         run: npm test
+        
+
   
