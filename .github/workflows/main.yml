@@ -39,6 +39,8 @@ jobs:
           state: ${{ steps.lint_code.conclusion }}
           context: "${{ github.workflow }}/lint"
           description: "Lint code"
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          
           
 
   
