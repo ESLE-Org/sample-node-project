@@ -29,7 +29,7 @@ jobs:
           name: "${{ github.workflow }}"
           url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "Review dependencies"
-          token: "${{secrets.GITHUB_TOKEN}}"
+          token: "${{secrets.TOKEN}}"
           ignoreForks: false
           
       - name: Create Status
@@ -37,7 +37,7 @@ jobs:
         run: |
           curl --request POST \
           --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
-          --header 'authorization: Bearer ${{ github.TOKEN }}' \
+          --header 'authorization: Bearer ${{ secrets.TOKEN }}' \
           --header 'content-type: application/json' \
           --data '{
             "state":  ${{ steps.dependency_review.conclusion }},
@@ -50,7 +50,7 @@ jobs:
         uses: myrotvorets/set-commit-status-action@master
         if: always()
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TOKEN }}
           status: ${{ steps.dependency_review.conclusion }}
           context: Publish NPM package
           allowForks: true
