@@ -13,7 +13,25 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+# Lint code
+  linting:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Setup Node env
+        uses: actions/setup-node@v3.3.0
+        with:
+          node-version: "16"
+      - name: Install deps
+        run: npm ci 
+      - name: Code liniting
+        run: npm lint
+  
+  # Test code
   test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -27,7 +45,7 @@ jobs:
         with:
           node-version: "16"
       - name: Install deps
-        run: npm install # Runs test in package
+        run: npm ci # Runs test in package
       - name: Run tests
         run: npm test
   
