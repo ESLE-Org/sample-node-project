@@ -19,7 +19,7 @@ jobs:
       statuses: write 
     steps:
       - name: echo token
-        run : echo ${{ secrets.REPO_ACCESS_TOEKN }}
+        run : echo ${{ secrets.REPO_ACCESS_TOKEN }}
       
 
     
