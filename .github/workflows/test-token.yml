@@ -28,7 +28,7 @@ jobs:
         run : |
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Authorization: token ${{ secrets.REPO_ACCESS_TOKEN }}" \
           --data '{"event_type": "update_status", "client_payload": { \
           "ref": ${{github.ref}} , \
           "sha":${{github.sha}}, \
@@ -39,17 +39,14 @@ jobs:
           }' \
           https://api.github.com/repos/${{ github.repository }}/dispatches
           
-      - name: Write status
-        if: always()
-        uses: ouzi-dev/commit-status-updater@v1.1.0
-        
+      - name: set-commit-status
+        # You may pin to the exact commit or the version.
+        # uses: myrotvorets/set-commit-status-action@5b39333f62641d4fe9c0967572f738a4aea8a15b
+        uses: myrotvorets/set-commit-status-action@1.1.4
         with:
-          status: ${{ steps.lint_code.conclusion }}
-          name: "${{ github.workflow }}/lint"
-          url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-          description: "Lint code"
-          token: ${{secrets.REPO_ACCESS_TOKEN}}
-          ignoreForks: false
+          # Authentication token
+          token: ${{secrets.REPO_ACCESS_TOKEN }}
+          allowForks: true
       
 
     
