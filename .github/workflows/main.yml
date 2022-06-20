@@ -41,7 +41,7 @@ jobs:
           name: "${{ github.workflow }}/lint"
           url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "Lint code"
-          token: ${{secrets.GITHUB_TOKEN}}
+          token: ${{secrets.REPO_ACCESS_TOKEN}}
           ignoreForks: false
       - name: Set status
         if: always()
