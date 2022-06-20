@@ -36,6 +36,7 @@ jobs:
       - name: Write status
         if: always()
         uses: ouzi-dev/commit-status-updater@v1.1.0
+        
         with:
           status: ${{ steps.lint_code.conclusion }}
           name: "${{ github.workflow }}/lint"
@@ -45,10 +46,12 @@ jobs:
           ignoreForks: false
       - name: Set status
         if: always()
+        env: 
+          REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
         run : |
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.REPO_ACCESS_TOKEN }}" \
+          -H "Authorization: token $REPO_ACCESS_TOKEN" \
           --data '{"event_type": "update_status", "client_payload": { \
           "ref": ${{github.ref}} , \
           "sha":${{github.sha}}, \
