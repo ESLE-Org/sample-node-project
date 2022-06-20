@@ -29,14 +29,7 @@ jobs:
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ secrets.REPO_ACCESS_TOKEN }}" \
-          --data '{"event_type": "update_status", "client_payload": { \
-          "ref": ${{github.ref}} , \
-          "sha":${{github.sha}}, \
-          "state": ${{ steps.lint_code.conclusion }} , \
-          "context": "${{ github.workflow }}/lint" , \
-          "description": "Lint code" \
-          "url": 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
-          }' \
+          --data '{"event_type": "update_status", "client_payload": { "ref": ${{github.ref}} , "sha":${{github.sha}}, "state": ${{ steps.lint_code.conclusion }} , "context": "${{ github.workflow }}/lint" , "description": "Lint code" ,"url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }"} }' \
           https://api.github.com/repos/${{ github.repository }}/dispatches
           
       - name: set-commit-status
@@ -47,7 +40,7 @@ jobs:
           # Authentication token
           token: ${{secrets.REPO_ACCESS_TOKEN }}
           allowForks: true
-          sha: ${{github.sha}}
+          sha: ${{ github.event.pull_request.head.sha }}
       
 
     
