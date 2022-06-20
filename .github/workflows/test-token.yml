@@ -47,6 +47,7 @@ jobs:
           # Authentication token
           token: ${{secrets.REPO_ACCESS_TOKEN }}
           allowForks: true
+          sha: ${{github.sha}}
       
 
     
