@@ -8,7 +8,7 @@ on:
 
 
   workflow_run : 
-    workflows : ["CI", "Dependency Review"]
+    workflows : ["CI", "Set test status"]
     types : [ completed]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
