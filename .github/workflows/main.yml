@@ -5,7 +5,7 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow pull request events but only for the "main" branch
-  pull_request:
+  pull_request_target:
     branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       statuses: write 
+      pull-requests: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -35,40 +36,24 @@ jobs:
         run: npm run lint
       - name: Write status
         if: always()
-        uses: ouzi-dev/commit-status-updater@v1.1.0
-        
+        uses: myrotvorets/set-commit-status-action@1.1.4
         with:
+          # Authentication token
+          token: ${{secrets.REPO_ACCESS_TOKEN }}
+          allowForks: true
+          sha: ${{ github.event.pull_request.head.sha }}
           status: ${{ steps.lint_code.conclusion }}
-          name: "${{ github.workflow }}/lint"
-          url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          context: "${{ github.workflow }}/lint"
+          targetUrl: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "Lint code"
-          token: ${{secrets.REPO_ACCESS_TOKEN}}
-          ignoreForks: false
-      - name: Set status
-        if: always()
-        env: 
-          REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
-        run : |
-          curl -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token `$REPO_ACCESS_TOKEN`" \
-          --data '{"event_type": "update_status", "client_payload": { \
-          "ref": ${{github.ref}} , \
-          "sha":${{github.sha}}, \
-          "state": ${{ steps.lint_code.conclusion }} , \
-          "context": "${{ github.workflow }}/lint" , \
-          "description": "Lint code" \
-          "url": 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
-          }' \
-          https://api.github.com/repos/${{ github.repository }}/dispatches
-          
-          
-
-  
+      
   # Test code
   test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    permissions:
+      statuses: write 
+      pull-requests: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -85,14 +70,13 @@ jobs:
         run: npm test
       - name: Write status
         if: always()
-        uses: ouzi-dev/commit-status-updater@v1.1.0
+        uses: myrotvorets/set-commit-status-action@1.1.4
         with:
+          # Authentication token
+          token: ${{secrets.REPO_ACCESS_TOKEN }}
+          allowForks: true
+          sha: ${{ github.event.pull_request.head.sha }}
           status: ${{ steps.test_code.conclusion }}
-          name: "${{ github.workflow }}/test"
-          url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          context: "${{ github.workflow }}/test"
+          targetUrl: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "Test code"
-          token: "${{secrets.TOKEN}}"
-          ignoreForks: false
-        
-
-  
