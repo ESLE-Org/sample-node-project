@@ -21,17 +21,4 @@ jobs:
       - name: 'Dependency Review'
         id: dependency_review
         uses: actions/dependency-review-action@v1
-      - uses: actions/checkout@v2
-      - name: Write status
-        if: always()
-        uses: myrotvorets/set-commit-status-action@1.1.4
-        with:
-          # Authentication token
-          token: ${{secrets.REPO_ACCESS_TOKEN }}
-          allowForks: true
-          sha: ${{ github.event.pull_request.head.sha }}
-          status: ${{ steps.dependency_review.conclusion }}
-          context: "${{ github.workflow }}"
-          targetUrl: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-          description: "Review dependencies"
 
