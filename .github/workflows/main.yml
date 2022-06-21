@@ -77,7 +77,7 @@ jobs:
           allowForks: true
           sha: ${{ github.event.pull_request.head.sha }}
           status: ${{ steps.test_code.conclusion }}
-          context: "${{ github.workflow }}/lint"
+          context: "${{ github.workflow }}/test"
           targetUrl: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           description: "Test code"
         
