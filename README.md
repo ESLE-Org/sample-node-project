@@ -1,2 +1,2 @@
 # sample-node-project
-Sample node project for test github actions. 1
+Sample node project for test github actions. 
