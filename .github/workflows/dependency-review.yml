@@ -5,7 +5,7 @@
 # Source repository: https://github.com/actions/dependency-review-action
 # Public documentation: https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-dependency-review#dependency-review-enforcement
 name: 'Dependency Review'
-on: [pull_request]
+on: [pull_request_target]
 
 
 
@@ -13,8 +13,8 @@ jobs:
   dependency-review:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      statuses: write
+      statuses: write 
+      pull-requests: write
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v3
@@ -22,38 +22,17 @@ jobs:
         id: dependency_review
         uses: actions/dependency-review-action@v1
       - uses: actions/checkout@v2
-      - if: always()
-        uses: ouzi-dev/commit-status-updater@v1.1.0
-        with:
-          status: ${{ steps.dependency_review.conclusion }}
-          name: "${{ github.workflow }}"
-          url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-          description: "Review dependencies"
-          token: "${{secrets.TOKEN}}"
-          ignoreForks: false
-          
-      - name: Create Status
+      - name: Write status
         if: always()
-        run: |
-          curl --request POST \
-          --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
-          --header 'authorization: Bearer ${{ secrets.TOKEN }}' \
-          --header 'content-type: application/json' \
-          --data '{
-            "state":  ${{ steps.dependency_review.conclusion }},
-            "context": "${{ github.workflow }}",
-            "target_url": 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-            }' \
-          --fail
-          
-      - name: Set final commit status
-        uses: myrotvorets/set-commit-status-action@master
-        if: always()
+        uses: myrotvorets/set-commit-status-action@1.1.4
         with:
-          token: ${{ secrets.TOKEN }}
-          status: ${{ steps.dependency_review.conclusion }}
-          context: Publish NPM package
+          # Authentication token
+          token: ${{secrets.REPO_ACCESS_TOKEN }}
           allowForks: true
-          sha: ${{github.pull_request.head.sha}}
+          sha: ${{ github.event.pull_request.head.sha }}
+          status: ${{ steps.dependency_review.conclusion }}
+          context: "${{ github.workflow }}"
+          targetUrl: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          description: "Review dependencies"
         
           
