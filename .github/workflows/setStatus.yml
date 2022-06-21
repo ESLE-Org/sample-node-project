@@ -2,7 +2,7 @@ name: Set test status
 
 on:
   workflow_run:
-    workflows: ["CI"]
+    workflows: ["Dependency Review"]
     types:
       - completed
 
@@ -20,9 +20,8 @@ jobs:
           --header 'content-type: application/json' \
           --data '{
             "state": "${{ github.event.workflow_run.conclusion }}",
-            "context": "CI/test",
-            "target_url": "${{ github.event.workflow_run.html_url }}"
+            "context": "Dependency Review",
+            "target_url": "${{ github.event.workflow_run.html_url }}",
+            "description": "Dependency Review"
             }' \
           --fail
-      - name: Echo workflows
-        run: echo "${{github.event.workflow_run}}"
